@@ -1,0 +1,7 @@
+{
+  "name": "Ưu đãi gần bạn",
+  "description": "Một ứng dụng giúp người dùng khám phá các ưu đãi sản phẩm hấp dẫn ở gần họ một cách nhanh chóng và dễ dàng.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

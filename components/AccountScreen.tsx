@@ -220,6 +220,22 @@ const LogoutModal: React.FC<{ onConfirm: () => void; onCancel: () => void; }> = 
     </div>
 );
 
+const HotlineModal: React.FC<{ onConfirm: () => void; onCancel: () => void; }> = ({ onConfirm, onCancel }) => (
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-6 w-full max-w-sm text-center">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <PhoneIcon className="w-6 h-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-800">Gọi tổng đài?</h3>
+            <p className="text-gray-600 my-2">Bạn có muốn gọi đến số hotline <br/> <span className="font-bold text-gray-800">08.22.00.78.78</span> không?</p>
+            <div className="flex space-x-4 mt-4">
+                <button onClick={onCancel} className="flex-1 bg-gray-200 text-gray-800 font-bold py-2.5 rounded-lg">Hủy</button>
+                <button onClick={onConfirm} className="flex-1 bg-green-600 text-white font-bold py-2.5 rounded-lg">Gọi</button>
+            </div>
+        </div>
+    </div>
+);
+
 // --- Main Account Screen Component ---
 
 interface AccountScreenProps {
@@ -230,7 +246,7 @@ interface AccountScreenProps {
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ user, onLogout, onSwitchToStore }) => {
     const [activeView, setActiveView] = useState<'main' | 'support'>('main');
-    const [isModalOpen, setModalOpen] = useState<'payment' | 'address' | 'logout' | null>(null);
+    const [isModalOpen, setModalOpen] = useState<'payment' | 'address' | 'logout' | 'hotline' | null>(null);
     const [addPaymentModalType, setAddPaymentModalType] = useState<'card' | 'wallet' | null>(null);
     
     // Check if the logged-in user is a store owner based on their role
@@ -246,7 +262,8 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ user, onLogout, onSwitchT
         setAddPaymentModalType(type);
     };
     
-    const handleCallHotline = () => {
+    const handleCallHotlineConfirm = () => {
+        setModalOpen(null);
         window.location.href = 'tel:0822007878';
     };
 
@@ -260,8 +277,14 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ user, onLogout, onSwitchT
                     
                     <main className="p-4 space-y-6">
                         <section className="flex flex-col items-center text-center">
-                            <UserCircleIcon className="w-24 h-24 text-gray-400" />
-                            <h2 className="text-2xl font-bold mt-2 text-gray-800">{user.name}</h2>
+                            <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 ring-4 ring-white shadow-md">
+                                <img 
+                                    src={`https://api.dicebear.com/8.x/initials/svg?seed=${encodeURIComponent(user.name)}`} 
+                                    alt="User Avatar" 
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <h2 className="text-2xl font-bold mt-3 text-gray-800">{user.name}</h2>
                             <div className="flex w-full space-x-4 mt-4">
                                 <StatCard icon={ShoppingBagIcon} value="25" label="Túi đã cứu" color="bg-green-500" />
                                 <StatCard icon={BanknotesIcon} value="1.250K" label="Đã tiết kiệm" color="bg-orange-500" />
@@ -302,7 +325,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ user, onLogout, onSwitchT
                                <ListItem icon={HomeIcon} label="Chuyển sang Giao diện Cửa hàng" onClick={onSwitchToStore} />
                             )}
                             <ListItem icon={QuestionMarkCircleIcon} label="Trung tâm hỗ trợ" onClick={() => setActiveView('support')} />
-                            <ListItem icon={PhoneIcon} label="Liên hệ hotline: 08.22.00.78.78" onClick={handleCallHotline}>
+                            <ListItem icon={PhoneIcon} label="Liên hệ hotline: 08.22.00.78.78" onClick={() => setModalOpen('hotline')}>
                                  <div/>
                             </ListItem>
                             <ListItem icon={ArrowLeftOnRectangleIcon} label="Đăng xuất" onClick={() => setModalOpen('logout')}>
@@ -318,6 +341,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ user, onLogout, onSwitchT
             {isModalOpen === 'payment' && <PaymentModal onClose={() => setModalOpen(null)} onAddMethod={handleOpenAddPaymentMethod} />}
             {isModalOpen === 'address' && <AddressModal onClose={() => setModalOpen(null)} />}
             {isModalOpen === 'logout' && <LogoutModal onConfirm={handleLogoutConfirm} onCancel={() => setModalOpen(null)} />}
+            {isModalOpen === 'hotline' && <HotlineModal onConfirm={handleCallHotlineConfirm} onCancel={() => setModalOpen(null)} />}
             {addPaymentModalType && <AddPaymentMethodModal type={addPaymentModalType} onClose={() => setAddPaymentModalType(null)} />}
         </div>
     );

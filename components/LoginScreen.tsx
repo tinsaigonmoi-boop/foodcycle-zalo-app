@@ -10,6 +10,17 @@ interface LoginScreenProps {
     onLogin: (user: User) => void;
 }
 
+const AppLogo: React.FC = () => (
+    <div className="text-center mb-8">
+        <div className="inline-block bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-2xl shadow-lg">
+            <span className="text-white font-bold text-4xl leading-none">FC</span>
+        </div>
+        <h1 className="text-3xl font-bold text-white mt-4 tracking-tight">FoodCycle</h1>
+        <p className="text-green-200">Giải cứu món ngon, giá hời</p>
+    </div>
+);
+
+
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -60,14 +71,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
     const switchToLogin = () => setView('login');
 
     return (
-        <div className="flex flex-col min-h-screen bg-white p-8 justify-center">
-            <div className="w-full max-w-sm mx-auto">
+        <div 
+          className="relative min-h-screen bg-gray-800 flex flex-col items-center justify-center p-8 bg-cover bg-center" 
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop')" }}
+        >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+            <div className="relative w-full max-w-sm mx-auto z-10">
+                <AppLogo />
                 {view === 'login' ? (
                     <>
-                        <h1 className="text-3xl font-bold text-gray-800 text-center">Đăng nhập</h1>
-                        <p className="text-gray-500 mt-2 text-center">Chào mừng bạn quay trở lại!</p>
-                        
-                        <div className="mt-8 space-y-4">
+                        <div className="space-y-4">
                              <button
                                 onClick={handleZaloLogin}
                                 className="w-full bg-[#0068FF] text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center space-x-3"
@@ -77,9 +90,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                             </button>
 
                              <div className="flex items-center">
-                                <div className="flex-grow border-t border-gray-200"></div>
-                                <span className="flex-shrink mx-4 text-gray-400 text-sm">Hoặc đăng nhập thủ công</span>
-                                <div className="flex-grow border-t border-gray-200"></div>
+                                <div className="flex-grow border-t border-gray-500"></div>
+                                <span className="flex-shrink mx-4 text-gray-300 text-sm">Hoặc đăng nhập thủ công</span>
+                                <div className="flex-grow border-t border-gray-500"></div>
                             </div>
 
                             <form onSubmit={handleTraditionalLogin} className="space-y-4">
@@ -90,7 +103,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                                         placeholder="Email hoặc Số điện thoại"
                                         value={emailOrPhone}
                                         onChange={(e) => setEmailOrPhone(e.target.value)}
-                                        className="w-full p-4 pl-12 bg-gray-100 border-2 border-transparent rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none focus:bg-white"
+                                        className="w-full p-4 pl-12 bg-gray-800/50 border-2 border-gray-600 text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none focus:bg-gray-700"
                                     />
                                 </div>
                                 <div className="relative">
@@ -100,14 +113,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                                         placeholder="Mật khẩu"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full p-4 pl-12 bg-gray-100 border-2 border-transparent rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none focus:bg-white"
+                                        className="w-full p-4 pl-12 bg-gray-800/50 border-2 border-gray-600 text-white rounded-xl focus:ring-2 focus:ring-green-500 focus:outline-none focus:bg-gray-700"
                                     />
                                 </div>
                                 <div className="text-right">
                                     <button
                                         type="button"
                                         onClick={() => setShowForgotPassword(true)}
-                                        className="text-sm font-semibold text-green-600 hover:underline"
+                                        className="text-sm font-semibold text-green-400 hover:underline"
                                     >
                                         Quên mật khẩu?
                                     </button>
@@ -121,9 +134,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                             </form>
                         </div>
                         
-                        <p className="text-sm text-gray-500 mt-8 text-center">
+                        <p className="text-sm text-gray-300 mt-8 text-center">
                             Chưa có tài khoản?{' '}
-                            <button onClick={switchToRegister} className="font-semibold text-green-600 hover:underline">
+                            <button onClick={switchToRegister} className="font-semibold text-green-400 hover:underline">
                                 Đăng ký ngay
                             </button>
                         </p>

@@ -47,19 +47,23 @@ const CartScreen: React.FC<CartScreenProps> = ({ cartItems, onBack, onUpdateQuan
     return (
         <div className="flex flex-col h-full bg-gray-50">
             <header className="bg-white p-4 border-b border-gray-200 flex items-center shrink-0 z-10">
-                <button onClick={onBack} className="p-1 mr-3">
+                <button onClick={onBack} className="p-1">
                     <ChevronLeftIcon className="w-6 h-6 text-gray-700" />
                 </button>
-                <div className="flex items-center">
-                    <img src={firstItem.deal.store.logoUrl} alt={firstItem.deal.store.name} className="w-8 h-8 rounded-full object-cover mr-2" />
-                    <div>
-                        <p className="text-sm font-bold text-gray-800">{firstItem.deal.store.name}</p>
-                        <p className="text-xs text-gray-500">Giỏ hàng</p>
-                    </div>
-                </div>
+                <h1 className="text-lg font-bold text-center flex-1">Giỏ hàng của bạn</h1>
+                <div className="w-7"></div> {/* Spacer */}
             </header>
 
             <main className="flex-1 overflow-y-auto p-4 space-y-4">
+                 {/* Store Info Card */}
+                <div className="bg-white rounded-2xl shadow-sm p-4 flex items-center space-x-3">
+                    <img src={firstItem.deal.store.logoUrl} alt={firstItem.deal.store.name} className="w-12 h-12 rounded-full object-cover"/>
+                    <div>
+                        <p className="text-xs text-gray-500">Đơn hàng từ</p>
+                        <p className="font-bold text-gray-800">{firstItem.deal.store.name}</p>
+                    </div>
+                </div>
+
                 {/* Product List */}
                 <div className="bg-white rounded-2xl shadow-sm p-4 space-y-4">
                     {cartItems.map(item => (
